@@ -42,7 +42,6 @@ def score_hand(hand):
 
 
 def deal_dealer():
-
     dealer_score = score_hand(dealer_hand)
     while 0 < dealer_score < 17:
         dealer_score_label.set(dealer_score)
@@ -84,6 +83,13 @@ def deal_player():
     # print(locals())
 
 
+def initial_deal():
+    deal_player()
+    dealer_hand.append(deal_card(dealer_card_frame))
+    dealer_score_label.set(score_hand(dealer_hand))
+    deal_player()
+
+
 def new_game():
     global dealer_card_frame
     global player_card_frame
@@ -103,18 +109,21 @@ def new_game():
     # create list to store dealer and players hands
     dealer_hand = []
     player_hand = []
-
-    deal_player()
-    dealer_hand.append(deal_card(dealer_card_frame))
-    dealer_score_label.set(score_hand(dealer_hand))
-    deal_player()
+    initial_deal()
 
 
 def shuffle():
     random.shuffle(deck)
 
 
+def play():
+    initial_deal()
+
+    mainWindow.mainloop()
+
+
 mainWindow = tkinter.Tk()
+
 # Set up screen and frames for dealer and player
 mainWindow.title("Blackjack")
 mainWindow.geometry("640x480")
@@ -168,13 +177,12 @@ load_images(cards)
 print(cards)
 
 # create a deck and shuffle cards
-deck = list(cards)
+deck = list(cards) + list(cards) + list(cards)
 shuffle()
-
 
 # create list to store dealer and players hands
 dealer_hand = []
 player_hand = []
 
-new_game()
-mainWindow.mainloop()
+if __name__ == "__main__":
+    play()
